@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello World</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+    <!-- Don't use this in production: -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      const MyApp = () => {
+        let name = 'Fiorella';
+        const user = {
+            name, // name: name
+            avatar: 'https://i.pravatar.cc/100',
+        };
+        const upper = (value) => value.toUpperCase();
+
+        const Welcome = ({ name, age }) => {
+            // console.log(props);
+            // Ici on a un fragment (<>Element</>)
+            let start = <>Bonjour {name ? <span>{name}</span> : <span>Inconnu</span>}</>;
+
+            if (age) {
+                return <h1>{start}, tu as {age} ans et dans 1 an, tu as {age + 1} ans.</h1>;
+            }
+
+            return (
+                <>
+                    <h1>{start}</h1>
+                    {name && name.length >= 2 && <p>Vous êtes connu !</p>}
+                </>
+            );
+        };
+
+        // Un composant avec un contenu (et aussi "héritage" des props)
+        const Card = (props) => {
+            return (
+                <div {...props} style={{ border: '1px solid grey' }}>
+                    {props.children}
+                </div>
+            );
+        }
+
+        const contacts = ['Fiorella', 'Toto', 'Matthieu', 'Marina'];
+
+        return (
+            <div>
+                <h1>Hello {upper(name)}</h1>
+                {/* Commentaire en JSX */}
+                <img src={user.avatar} alt={user.name} className="circle" style={{ borderRadius: 50 }} />
+                <p>Il est {new Date().toLocaleTimeString()}</p>
+                <Welcome age={4} name={name} />
+                <Welcome name="T" />
+                <Welcome />
+                {1 === 1 ? <Welcome /> : null}
+                <Welcome name="Fiorella" />
+                <Card className="card-product" id="10" alt="Image">
+                    <h1>Bonjour</h1>
+                    <Welcome name="Fiorella" />
+                </Card>
+                <ul>
+                    {contacts.map((contact, index) =>
+                        <li className="contact" key={index}>
+                            {contact}
+                        </li>
+                    )}
+                </ul>
+            </div>
+        );
+      }
+
+      const container = document.getElementById('root');
+      const root = ReactDOM.createRoot(container);
+
+      // Exécute le rendu
+      root.render(<MyApp />);
+      // setInterval(() => root.render(<MyApp />), 1000);
+    </script>
+    <!--
+      Note: this page is a great way to try React but it's not suitable for production.
+      It slowly compiles JSX with Babel in the browser and uses a large development build of React.
+
+      Read this page for starting a new React project with JSX:
+      https://react.dev/learn/start-a-new-react-project
+
+      Read this page for adding React with JSX to an existing project:
+      https://react.dev/learn/add-react-to-an-existing-project
+    -->
+  </body>
+</html>

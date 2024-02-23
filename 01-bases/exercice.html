@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello World</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+    <!-- Don't use this in production: -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      const MyApp = () => {
+        function Exo1() {
+            const song = 'Chachacha';
+            const numberOfGoodReasonsToBeHere = 150;
+            const disabledButton = <button disabled>Bouton</button>
+
+            return (
+                <div>
+                    <p>Afficher ici le contenu de la variable song: {song}</p>
+                    <p>Afficher ici le contenu de numberOfGoodReasonsToBeHere: {numberOfGoodReasonsToBeHere}</p>
+                    <p>Afficher ici le contenu de disabledButton</p>
+                    {disabledButton}
+                </div>
+            )
+        }
+
+        function Exo2() {
+            const notes = [0, 4, 10, 20, 15];
+
+            const person = {
+                firstname: 'Boulette',
+                lastname: 'Fromage',
+                age: 15,
+            };
+
+            const actionsList = (
+                <div>
+                    <button>Modifier</button>
+                    <button>Annuler</button>
+                </div>
+            );
+
+            return (
+                <div>
+                    <p>
+                        Afficher le contenu du tableau notes sous forme de liste
+                        <a href="https://react.dev/learn/rendering-lists">Documentation sur l'affichage des listes</a>
+                    </p>
+                    <ol>
+                        {notes.map((note, index) =>
+                            <li key={index}>{note}</li>
+                        )}
+                    </ol>
+                    <p>Moyenne: {notes.reduce((previous, current) => previous + current) / notes.length}</p>
+                    <p>Afficher le contenu de la constante person sous la forme person.value</p>
+                    <p>{person.firstname} {person.lastname} a {person.age} ans.</p>
+                    <pre>Debug: {JSON.stringify(person)}</pre>
+                    <p>{Object.values(person)}</p>
+                    <p>Afficher le contenu de la constante actionsList</p>
+                    {actionsList}
+                </div>
+            )
+        }
+
+        function Exo3() {
+            const person = {
+                name: 'Charly',
+                age: 66,
+                job: {
+                    name: 'Styliste',
+                    since: '29 Avril 2020',
+                }
+            };
+
+            const shoppingCart = [
+                {
+                    name: 'Concombre',
+                    type: 'Legume'
+                },
+                {
+                    name: 'Courgette',
+                    type: 'Legume',
+                },
+                {
+                    name: 'Endive',
+                    type: 'Beurk',
+                },
+                {
+                    name: 'Steak',
+                    type: 'Frais',
+                },
+                {
+                    name: 'Sanglier',
+                    type: null,
+                }
+            ];
+
+            /**
+             * Cette fonction renvoie une div au format JSX
+             */
+            const someDiv = () => <div>Je suis une div</div>
+
+            /**
+             * Cette fonction renvoie un bouton Valider au format JSX
+             */
+            const validateButton = () => {
+                return <button>Je suis un bouton</button>
+            }
+
+            /**
+             * Cette fonction renvoie une liste des séries à regarder pendant le confinement
+             */
+            const catalogSeries = () => {
+                return [
+                    {
+                        name: 'One Sheep',
+                        episodes: 999999,
+                        note: 5,
+                    },
+                    {
+                        name: 'Vikongs',
+                        episodes: 5,
+                        note: 2,
+                    },
+                    {
+                        name: 'Spartakis, au bon lait de brebis',
+                        episodes: 15,
+                        note: 3,
+                    }
+                ];
+            }
+
+            const series = catalogSeries();
+
+            return (
+                <div>
+                    {someDiv()}
+                    <p>Consulter la fonction someDiv. En vous basant sur le même modèle, remplissez la fonction validateButton</p>
+                    <p>Appeler la fonction validateButton pour générer le bouton en dessous de ce paragraphe</p>
+                    {validateButton()}
+                    <p>Afficher toutes les propriétés de la variable person</p>
+                    <p>
+                        {person.name} a {person.age} ans.{' '}
+                        {person.job && <>Son métier est {person.job?.name} depuis le {person.job?.since}.</>}
+                    </p>
+                    <p>Afficher toutes les propriétés du panier de courses</p>
+                    {JSON.stringify(shoppingCart)}
+                    <ul>
+                        {shoppingCart.map((item, index) =>
+                            <li key={index}>{item.name} {item.type ? <>({item.type})</> : null}</li>
+                        )}
+                    </ul>
+                    <p>Afficher toutes les propriétés du catalogue de séries</p>
+                    <div stylee="{{ display: 'flex', gap: 10 }}">
+                        {catalogSeries().map((serie, index) =>
+                            <div key={index} stylee="{{ border: '1px solid lightgray', padding: 8 }}">
+                                <p>{serie.name}</p>
+                                <p>{serie.episodes} épisodes</p>
+                                <p>{'⭐'.repeat(serie.note)}</p>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            );
+        }
+
+        function Exo4() {
+            const cat = 'aaa';
+
+            const persons = [
+                {
+                    name: 'Charly',
+                    age: 66,
+                    job: {
+                        name: 'Styliste',
+                        since: '29 Avril 2020',
+                    },
+                },
+                {
+                    name: 'Charly',
+                    age: 25,
+                    job: {
+                        name: 'Barman',
+                        since: '29 Avril 5050',
+                    },
+                }
+            ];
+
+            const shoppingCart = [
+                {
+                    name: 'Concombre',
+                    type: 'Legume',
+                    warehouse: {
+                        name: 'MisterEpices',
+                        size: 'petit',
+                    }
+                },
+                {
+                    name: 'Courgette',
+                    type: 'Legume',
+                    warehouse: {
+                        name: 'MisterEpices',
+                        size: 'petit',
+                    }
+                },
+                {
+                    name: 'Endive',
+                    type: 'Beurk',
+                    warehouse: {
+                        name: 'Parking Souterrain',
+                        size: 'Grand',
+                    }
+                },
+                {
+                    name: 'Steak',
+                    type: 'Frais',
+                },
+                {
+                    name: 'Sanglier',
+                    type: null,
+                    warehouse: null,
+                }
+            ];
+
+            const Cat = ({ cat }) => {
+                return (
+                    cat && cat.toLowerCase() !== 'ronron' && <p>{cat}</p>
+                );
+            };
+
+            return (
+                <div>
+                    <p>
+                        <a href="https://react.dev/learn/conditional-rendering#logical-and-operator-">
+                            Documentation sur le rendu conditionnel à la volée en JSX
+                        </a>
+                    </p>
+                    <p>
+                        Après avoir consulté la documentation, afficher chat de manière conditionnelle seulement
+                        si son nom est différent de "Ronron" et qu'il n'est pas nul et avec la notation &&
+                    </p>
+                    {cat && cat.toLowerCase() !== 'ronron' && <p>{cat}</p>}
+                    <Cat cat={cat} />
+                    <Cat cat="ronron" />
+                    <p>
+                        Afficher les propriétés de chaque personne à l'aide de map
+                        Pour chaque personne afficher son âge de manière conditionnelle en utilisant ? et :
+                    </p>
+                    <p>
+                        Afficher les propriétés de chaque personne à l'aide de map
+                        Pour chaque personne afficher son âge de manière conditionnelle en utilisant ||
+                    </p>
+                    <ul>
+                        <li>
+                            Si l'âge de la personne est supérieur à 65, alors afficher "Senior"
+                        </li>
+                        <li>
+                            Sinon, afficher l'âge de la personne
+                        </li>
+                    </ul>
+                    <ul>
+                        {persons.map((person, index) =>
+                            <li key={index}>
+                                {person.name},{' '}
+                                {person.job.name} depuis {person.job.since}
+
+                                <p>Ternaire: {person.age > 65 ? 'Senior' : person.age}</p>
+                                <p>A la volée: {person.age > 65 && 'Senior' || person.age}</p>
+                            </li>    
+                        )}
+                    </ul>
+                    <p>Afficher tous les légumes dans une boucle map</p>
+                    <p>Pour chaque légume, afficher son magasin de manière conditionnelle avec && </p>
+                    <ul>
+                        {shoppingCart.map((vegetable, index) =>
+                            <li key={index}>
+                                {vegetable.name} {vegetable.type && <>- {vegetable.type}</>}
+                                {vegetable.warehouse &&
+                                    <div>
+                                        <p>{vegetable.warehouse.name} - {vegetable.warehouse.size}</p>
+                                    </div>
+                                ||
+                                    <div>
+                                        Inconnu
+                                    </div>
+                                }
+                                {!vegetable.warehouse && <div>Inconnu</div>}
+                            </li>
+                        )}
+                    </ul>
+                </div>
+            )
+        }
+
+        return (
+            <>
+                <Exo1 />
+                <Exo2 />
+                <Exo3 />
+                <Exo4 />
+            </>
+        );
+      }
+
+      const container = document.getElementById('root');
+      const root = ReactDOM.createRoot(container);
+
+      // Exécute le rendu
+      root.render(<MyApp />);
+    </script>
+    <!--
+      Note: this page is a great way to try React but it's not suitable for production.
+      It slowly compiles JSX with Babel in the browser and uses a large development build of React.
+
+      Read this page for starting a new React project with JSX:
+      https://react.dev/learn/start-a-new-react-project
+
+      Read this page for adding React with JSX to an existing project:
+      https://react.dev/learn/add-react-to-an-existing-project
+    -->
+  </body>
+</html>
