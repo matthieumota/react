@@ -22,7 +22,7 @@ const todoSlice = createSlice({
         edit: (state, action) => {
             const { id, name } = action.payload;
 
-            return state.map(t => t.id === id ? { ...t, name } : t)
+            return state.map(t => t.id === id ? { ...t, name } : t);
         },
     },
 
