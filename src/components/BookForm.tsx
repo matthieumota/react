@@ -1,4 +1,4 @@
-import { type FormEvent, useState } from 'react'
+import { type FormEvent, useEffect, useRef, useState } from 'react'
 import { type Book } from '@components/Book'
 import Button from '@ui/Button'
 import clsx from 'clsx'
@@ -13,7 +13,47 @@ type BookFormProps = {
 
 function BookForm({ book, onCancel, onChange, onSave }: BookFormProps) {
   const [localBook, setLocalBook] = useState(book)
+  const oldTitle = useRef(book.title)
   const [errors, setErrors] = useState<Record<string, string>>({})
+
+  useEffect(() => {
+    console.log('Le composant est monté ou le state a changé')
+  })
+
+  useEffect(() => {
+    console.log('Le composant est monté')
+  }, [])
+
+  useEffect(() => {
+    console.log(`Le livre choisi a changé`, localBook)
+  }, [localBook])
+
+  useEffect(() => {
+    const timer = setInterval(() => console.log('tick'), 1000)
+
+    return () => clearInterval(timer)
+  }, [])
+
+  useEffect(() => {
+    if (Object.keys(errors).length === 0) {
+      return
+    }
+
+    alert('Erreur')
+  }, [errors])
+
+  useEffect(() => {
+    console.log('NOUVELLE VALEUR', localBook)
+    console.log(oldTitle.current, localBook.title)
+    if (oldTitle.current !== localBook.title) {
+      console.log('Le titre a changé')
+    }
+
+    return () => {
+      console.log('ANCIENNE VALEUR', localBook)
+      oldTitle.current = localBook.title
+    }
+  }, [localBook.title])
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const book = { ...localBook, [event.target.name]: event.target.value }

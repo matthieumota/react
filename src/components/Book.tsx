@@ -2,6 +2,7 @@ import Button from '@ui/Button'
 import { useState, type ChangeEvent, type FormEvent } from 'react'
 import Counter from '@components/Counter'
 import { AUTHORS, cn } from '@/utils'
+import Clock from './Clock'
 
 export type Book = {
   id: number
@@ -180,6 +181,8 @@ function Book({
         <Button title="Modifier" onClick={toggleEdit}>
           Modifier
         </Button>
+
+        {like > 1 && <Clock />}
 
         {/*<Counter />
         <Counter initialValue={5} />

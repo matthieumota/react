@@ -66,6 +66,7 @@ function App() {
         {selectedBook && <div className="flex justify-center mb-4">
           <div className="w-1/3">
             <Book
+              key={selectedBook.id}
               book={selectedBook}
               onSelect={() => setSelectedBook(undefined)}
               onRemove={() => {
