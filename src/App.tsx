@@ -1,6 +1,6 @@
 import Author from '@components/Author'
 import Book, { type Book as BookType } from '@components/Book'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Button from './components/ui/Button'
 import BookForm from './components/BookForm'
 import { BOOKS } from './utils'
@@ -32,6 +32,27 @@ function App() {
     year: 0,
     image: '',
   })
+
+  useEffect(() => {
+    const books = localStorage.getItem('books')
+    if (books) {
+      console.log('1', JSON.parse(books))
+      setBooks(JSON.parse(books))
+    }
+  }, [])
+
+  // Permet de savoir si le composant est déjà monté ou non
+  const isMounted = useRef(false)
+
+  useEffect(() => {
+    if (!isMounted.current) {
+      isMounted.current = true
+      return
+    }
+
+    console.log('2', books)
+    localStorage.setItem('books', JSON.stringify(books))
+  }, [books])
 
   const toggleForm = () => {
     setShowForm(!showForm)
