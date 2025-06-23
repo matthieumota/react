@@ -1,5 +1,6 @@
 import Author from '@components/Author'
 import { Link, Outlet } from 'react-router'
+import { useUser } from './contexts/UserContext'
 
 function App() {
   const authors = [
@@ -15,13 +16,29 @@ function App() {
     }
   ]
 
+  const { user, setUser } = useUser()
+
   return (
     <div className="bg-gray-100 min-h-screen p-4">
       <div className="max-w-5xl mx-auto">
-        <nav className="flex gap-4">
-          <Link to="/">Accueil</Link>
-          <Link to="/a-propos">A propos</Link>
-        </nav>
+        <div className="flex justify-between">
+          <nav className="flex gap-4">
+            <Link to="/">Accueil</Link>
+            <Link to="/a-propos">A propos</Link>
+          </nav>
+
+          {user &&
+            <div>
+              <h1>Bonjour {user.name}</h1>
+              <button
+                className="bg-blue-500 text-white px-4 py-2 rounded mt-2"
+                onClick={() => setUser({ name: user.name === 'Fiorella' ? 'Marina' : 'Fiorella' })}
+              >
+                Changer le nom en {user.name === 'Fiorella' ? 'Marina' : 'Fiorella'}
+              </button>
+            </div>
+          }
+        </div>
 
         <Outlet />
 

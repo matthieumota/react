@@ -1,4 +1,5 @@
 import type { Book as BookType } from '@/components/Book'
+import { useUser } from '@/contexts/UserContext'
 import useFetch from '@/hooks/useFetch'
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router'
@@ -11,6 +12,7 @@ function About() {
   )
   const navigate = useNavigate()
   const goToBook = () => navigate(`/livre/${selected}`)
+  const { user } = useUser()
 
   useEffect(() => {
     if (!books) return
@@ -28,6 +30,7 @@ function About() {
     <>
       <h1 className="text-3xl font-bold text-center text-blue-500 mb-6">A propos</h1>
       <input type="text" value={search} onChange={e => setSearch(e.target.value)} />
+      {user && <h2>Bonjour {user.name}</h2>}
 
       {/*books && <select className="border border-gray-300 rounded-md py-1 px-2 w-full"
         value={selected?.id}
