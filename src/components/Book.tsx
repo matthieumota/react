@@ -4,6 +4,8 @@ import Counter from '@components/Counter'
 import { AUTHORS, cn } from '@/utils'
 import Clock from './Clock'
 import { Link } from 'react-router'
+import { useCartStore } from '@/stores/useCartStore'
+import { useShallow } from 'zustand/shallow'
 
 export type Book = {
   id: number
@@ -34,6 +36,16 @@ function Book({
   const [editMode, setEditMode] = useState(false)
   const [localBook, setLocalBook] = useState(book)
   const [errors, setErrors] = useState<Record<string, string>>({})
+
+  // const cart = useCartStore(state => state.cart)
+  // const addToCart = useCartStore(state => state.addToCart)
+
+  const { countBook, addToCart } = useCartStore(
+    useShallow(state => ({
+      countBook: state.countBook(book.id),
+      addToCart: state.addToCart,
+    }))
+  )
 
   const handleSee = () => {
     onSelect()
@@ -185,6 +197,10 @@ function Book({
         <Link to={`/livre/${book.id}`} className="inline-block bg-blue-500 hover:bg-blue-800 text-white py-1.5 px-4 rounded-md duration-300 disabled:opacity-50">
           Visiter
         </Link>
+        <Button title="Ajouter au panier" onClick={() => addToCart(book)}>
+          Ajouter au panier
+        </Button>
+        {countBook}
 
         {like > 1 && <Clock />}
 
