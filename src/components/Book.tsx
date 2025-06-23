@@ -3,6 +3,7 @@ import { useState, type ChangeEvent, type FormEvent } from 'react'
 import Counter from '@components/Counter'
 import { AUTHORS, cn } from '@/utils'
 import Clock from './Clock'
+import { Link } from 'react-router'
 
 export type Book = {
   id: number
@@ -181,6 +182,9 @@ function Book({
         <Button title="Modifier" onClick={toggleEdit}>
           Modifier
         </Button>
+        <Link to={`/livre/${book.id}`} className="inline-block bg-blue-500 hover:bg-blue-800 text-white py-1.5 px-4 rounded-md duration-300 disabled:opacity-50">
+          Visiter
+        </Link>
 
         {like > 1 && <Clock />}
 

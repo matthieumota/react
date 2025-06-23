@@ -28,7 +28,7 @@ function Home() {
             setBooks(response.data)
         }).catch((e: AxiosError) =>
             setError(e.status?.toString() ?? 'Api non disponible')
-        ).finally(() => setTimeout(() => setLoading(false), 1000))
+        ).finally(() => setTimeout(() => setLoading(false), 0))
     }, [])
 
     // useEffect(() => {
@@ -114,12 +114,12 @@ function Home() {
             <div className="grid grid-cols-4 gap-4">
                 {!loading && books.map(book =>
                     <Book
-                    key={book.id}
-                    book={book}
-                    selected={selectedBook?.id === book.id}
-                    onSelect={() => setSelectedBook(selectedBook?.id === book.id ? undefined : book)}
-                    onRemove={() => handleRemoveBook(book)}
-                    onSave={handleUpdateBook}
+                        key={book.id}
+                        book={book}
+                        selected={selectedBook?.id === book.id}
+                        onSelect={() => setSelectedBook(selectedBook?.id === book.id ? undefined : book)}
+                        onRemove={() => handleRemoveBook(book)}
+                        onSave={handleUpdateBook}
                     />
                 )}
             </div>

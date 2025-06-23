@@ -5,6 +5,7 @@ import App from './App.tsx'
 import { createBrowserRouter, RouterProvider } from 'react-router'
 import Home from './pages/Home.tsx'
 import About from './pages/About.tsx'
+import BookSingle from './pages/BookSingle.tsx'
 
 const router = createBrowserRouter([
   {
@@ -12,7 +13,8 @@ const router = createBrowserRouter([
     Component: App,
     children: [
       { index: true, Component: Home },
-      { path: 'a-propos', Component: About }
+      { path: 'a-propos', Component: About },
+      { path: 'livre/:id', Component: BookSingle }
     ],
   },
 ])
