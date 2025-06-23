@@ -4,12 +4,11 @@ import { useEffect, useRef, useState } from 'react'
 import Button from './components/ui/Button'
 import BookForm from './components/BookForm'
 import { BOOKS } from './utils'
+import axios, { AxiosError } from 'axios'
 
 let nextId = 11
 
 function App() {
-  const [books, setBooks] = useState<BookType[]>(BOOKS)
-
   const authors = [
     {
       id: '029e8020-b294-44de-9961-1bd4ac36d699',
@@ -33,26 +32,40 @@ function App() {
     image: '',
   })
 
+  const [books, setBooks] = useState<BookType[]>([])
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string>()
+
   useEffect(() => {
-    const books = localStorage.getItem('books')
-    if (books) {
-      console.log('1', JSON.parse(books))
-      setBooks(JSON.parse(books))
-    }
+    setLoading(true)
+
+    axios.get('http://localhost:3000/books').then(response => {
+      setBooks(response.data)
+    }).catch((e: AxiosError) =>
+      setError(e.status?.toString())
+    ).finally(() => setTimeout(() => setLoading(false), 1000))
   }, [])
 
-  // Permet de savoir si le composant est déjà monté ou non
-  const isMounted = useRef(false)
+  // useEffect(() => {
+  //   const books = localStorage.getItem('books')
+  //   if (books) {
+  //     console.log('1', JSON.parse(books))
+  //     setBooks(JSON.parse(books))
+  //   }
+  // }, [])
 
-  useEffect(() => {
-    if (!isMounted.current) {
-      isMounted.current = true
-      return
-    }
+  // // Permet de savoir si le composant est déjà monté ou non
+  // const isMounted = useRef(false)
 
-    console.log('2', books)
-    localStorage.setItem('books', JSON.stringify(books))
-  }, [books])
+  // useEffect(() => {
+  //   if (!isMounted.current) {
+  //     isMounted.current = true
+  //     return
+  //   }
+
+  //   console.log('2', books)
+  //   localStorage.setItem('books', JSON.stringify(books))
+  // }, [books])
 
   const toggleForm = () => {
     setShowForm(!showForm)
@@ -100,8 +113,22 @@ function App() {
           </div>
         </div>}
 
+        {loading && (
+          <div className="flex justify-center items-center py-10">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-blue-500 border-opacity-50"></div>
+            <span className="ml-4 text-blue-500 font-medium">Chargement des livres...</span>
+          </div>
+        )}
+
+        {!loading && error && (
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative max-w-xl mx-auto mb-4">
+            <strong className="font-bold">Erreur :</strong>
+            <span className="block sm:inline ml-1">{error}</span>
+          </div>
+        )}
+
         <div className="grid grid-cols-4 gap-4">
-          {books.map(book =>
+          {!loading && books.map(book =>
             <Book
               key={book.id}
               book={book}
